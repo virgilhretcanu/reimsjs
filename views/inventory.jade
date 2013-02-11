@@ -1,0 +1,242 @@
+!!!5
+html 
+    title Inventory Update
+    include includes/common_head  
+    
+    script
+        $(document).ready(function() {
+          //$('#od_sphere').mask('99999.99');
+          applyUIStyle();    
+          
+          $('#type').change(function() {
+                if($(this).val() == "S")
+                {
+                    $("#od_add").attr("disabled","disabled").val("");
+                    $("#os_add").attr("disabled","disabled").val("");
+                }
+                else
+                {
+                    $("#od_add").removeAttr("disabled");
+                    $("#os_add").removeAttr("disabled");
+                }
+            });
+
+         $("#od_axis,#os_axis").blur(function(){
+                formatDegrees($(this));
+                if($("#os_axis").val()=="")
+                    $("#os_axis").val($("#od_axis").val());
+            });
+
+         $("#od_sphere,#os_sphere").blur(function(){
+                formatQuarters($(this));
+                if($("#os_sphere").val()=="")
+                    $("#os_sphere").val($("#od_sphere").val());
+            });   
+        
+        $("#od_cylinder,#os_cylinder").blur(function(){
+                var obj = $(this);
+                formatQuarters(obj);
+                if(parseFloat(obj.val()) > 0)
+                   obj.val("-" + obj.val()); //always negative
+                if($("#os_cylinder").val()=="")
+                    $("#os_cylinder").val($("#od_cylinder").val());
+            }); 
+
+            $("#od_add").blur(function(){
+                if($("#os_add").val()=="")
+                    $("#os_add").val($("#od_add").val());
+            });
+        });
+        
+        function applyUIStyle()
+        {
+            $("#od_sphere,#os_sphere,#od_cylinder,#os_cylinder,#od_axis,#os_axis").parent().tooltip();
+        }
+
+        function isNumber(n) {
+          return !isNaN(parseFloat(n)) && isFinite(n);
+        }
+        
+        function formatDegrees(obj)
+        {
+            var orig_val = obj.val();
+            if(!isNumber(orig_val))
+            {
+                obj.parent().removeClass("value_adjusted").attr("title","");
+                return;
+            }
+
+            var calc_val = Math.abs(Math.floor(orig_val));
+            
+            if( parseFloat(calc_val) == 180)
+            {
+                calc_val = 0;
+            }
+            
+            calc_val = paddy(calc_val, 3, '0');
+            
+            obj.val(calc_val);
+            markAdjusted(obj, orig_val, calc_val);
+        }
+        
+        function formatQuarters(obj)
+        {
+            var orig_val= obj.val();
+            if(!isNumber(orig_val))
+            {
+                obj.parent().removeClass("value_adjusted").attr("title","");
+                return;
+            }
+            var cal_val;
+            var val_floor = Math.floor(orig_val);
+            var val_abs =  Math.abs(orig_val);
+            var val_dec = val_abs - val_floor;
+            val_dec = Math.round(val_dec*100)/100;
+            var val_mod =  (val_abs-val_floor)%0.25;
+            val_mod = Math.round(val_mod*100)/100;
+            var val_diff = 0.25-val_mod;
+            val_diff = Math.round(val_diff*100)/100;
+            
+            if(val_mod >= 0.125) /* 0.25 / 2 = 0.125 */
+            {
+                if(orig_val>=0)
+                    cal_val = parseFloat(orig_val) + parseFloat(val_diff);
+                else
+                    cal_val = parseFloat(orig_val) - parseFloat(val_diff);
+            }
+            else
+            {
+                if(orig_val>=0)
+                    cal_val = parseFloat(orig_val) - parseFloat(val_mod);
+                else
+                    cal_val = parseFloat(orig_val) + parseFloat(val_mod);
+            }
+    
+            cal_val = Math.round(cal_val*100)/100;
+            var dec = Math.abs(cal_val)- Math.abs(Math.floor(cal_val));
+        
+            if(parseFloat(dec) == 0)
+                cal_val = cal_val + ".00";
+            obj.val(cal_val).attr("ov",orig_val);
+            
+            markAdjusted(obj, orig_val, cal_val);
+        }
+    
+        function markAdjusted(obj, orig_val, cal_val)
+        {
+            if(cal_val != orig_val)
+            {
+                obj.parent().addClass("value_adjusted").attr("title","Adjusted Value, Original: " + orig_val);
+            }
+            else
+            {
+                if(obj.val() == obj.attr("ov"))
+                    obj.parent().removeClass("value_adjusted").attr("title","");
+            }
+        }
+
+        function validate()
+        {
+            var valid = true;
+            $(".error :first-child").each(function(){
+                $(this).unwrap();
+            });
+            if($("#type").val() == "")
+            {
+                valid = false;
+                $("#type").wrap("<div class=\"error\">Required Field</div>");
+            }
+            var odshere_v = $("od_sphere").val();
+            
+
+            return valid;
+        }
+body
+  include includes/menu  
+  h1 Inventory Update
+  span.explations The inventory number will be automatically generated
+
+  div(class="centered")
+      form#locations(method="post",action='/inventory')
+        table(class="centered")
+            tbody
+                tr(title="Inventory Number") 
+                    th SKU
+                    td 
+                        input(id="sku",type="text", name="sku", /*disabled="disabled",*/value="12345")
+                tr(title="Type") 
+                    th Type
+                    td 
+                        select(id="type",name="type", tabindex="1")
+                            option(value="")
+                            option(value="S") Single Vision                       
+                            option(value="B", selected=true) Bifocal
+                tr(title="Gender") 
+                    th Gender
+                    td 
+                        select(name="gender",tabindex="2")
+                            option(value="")
+                            option(value="M") Male                        
+                            option(value="M") Female                        
+                            option(value="U", selected=true) Unisex
+                tr(title="Size") 
+                    th Size
+                    td 
+                         select(name="size",tabindex="3")
+                            option(value="")
+                            option(value="C") Child
+                            option(value="S") Small                     
+                            option(value="M", selected=true) Medium
+                            option(value="L") Large
+                tr(title="Tint") 
+                    th Tint
+                    td 
+                         select(name="tint",tabindex="4")
+                            option(value="")
+                            option(value="N", selected=true) No
+                            option(value="D") Dark
+                            option(value="L") Light
+                tr(title="Material") 
+                    th Material
+                    td 
+                         select(name="material",tabindex="5")
+                            option(value="")
+                            option(value="M", selected=true) Metal
+                            option(value="P") Plastic
+        hr
+        table(class="centered")
+            tr
+                th 
+                th OD / Right
+                th OS / Left
+            tr
+                th Sphere
+                td 
+                    input#od_sphere(type="text", name="od_sphere", tabindex="6")     
+                    div(id="debug")
+                td 
+                    input#os_sphere(type="text", name="os_sphere", tabindex="10")
+            tr
+                th Cylinder
+                td 
+                    input#od_cylinder(type="text", name="od_cylinder", tabindex="7")
+                td 
+                    input#os_cylinder(type="text", name="os_cylinder",tabindex="11")
+            tr
+                th Axis
+                td 
+                    input#od_axis(type="text", name="od_axis", tabindex="8")
+                td 
+                    input#os_axis(type="text", name="os_axis", tabindex="12")
+            tr
+                th Add
+                td 
+                    input#od_add(type="text", name="od_add", tabindex="9")
+                td 
+                    input#os_add(type="text", name="os_add", tabindex="13")
+    
+        p.buttons
+            input(type="submit", value="Save", onclick="return validate()", tabindex="14") 
+    
+
+

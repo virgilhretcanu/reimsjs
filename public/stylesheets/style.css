@@ -1,0 +1,270 @@
+/* @import "mixins/css3"*/
+/* Reset
+Based on http://meyerweb.com/eric/thoughts/2008/01/15/resetting-again/
+Removed elements not supported in HTML5
+-----------------------------------------------------------------------------*/
+html,
+body,
+div,
+span,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+address,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+var,
+b,
+i,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td {
+  vertical-align: baseline;
+}
+/* 
+Trigger the new block level elements in to the correct content flow
+-----------------------------------------------------------------------------*/
+article,
+aside,
+dialog,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+/* Set up document
+-----------------------------------------------------------------------------*/
+body {
+  font: "Helvetica", "Arial", "Lucida Grande", "Lucida Sans", "Tahoma", "Verdana";
+  text-align: center;
+  background: #ccc;
+/*text-shadow:1px 0px 0 rgba(255,255,255,1)*/
+}
+input {
+  font: Arial, "Lucida Grande", "Lucida Sans", Tahoma, Verdana, sans-serif;
+  text-align: center;
+  padding: 5px;
+}
+#wrapper {
+  width: 920px;
+  text-align: left;
+  margin-left: auto;
+  margin-right: auto;
+  background: #fff;
+  padding: 20px;
+}
+.centered {
+  width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #fff;
+}
+/* Typography
+-----------------------------------------------------------------------------*/
+/*@import "partials/typography"*/
+/* CSS Tables
+-----------------------------------------------------------------------------*/
+.css-table {
+  width: 100%;
+  display: table;
+}
+.css-table .two-column {
+  display: table-row;
+}
+.css-table .two-column .cell {
+  display: table-cell;
+  vertical-align: top;
+  width: 50%;
+}
+.css-table .two-column .cell * {
+  width: 90%;
+}
+.css-table .three-column {
+  display: table-row;
+}
+.css-table .three-column .cell {
+  display: table-cell;
+  width: 33.33333%;
+  border: 1px solid #000;
+  border-radius: 5px;
+  margin: 5px;
+}
+.css-table .three-column .cell * {
+  width: 90%;
+}
+.css-table .four-column {
+  display: table-row;
+}
+.css-table .four-column .cell {
+  display: table-cell;
+  width: 25%;
+}
+/* Header
+-----------------------------------------------------------------------------*/
+header {
+  background: #f00060;
+}
+header nav {
+  width: 960px;
+  text-align: right;
+  margin-left: auto;
+  margin-right: auto;
+}
+header nav ul {
+  list-style: none;
+  padding: 10px;
+  margin-bottom: 0;
+}
+header nav ul li {
+  display: inline;
+  margin-left: 1%;
+}
+header nav ul li a {
+  background: #fc9200;
+  display: inline-block;
+  padding: 5px 15px 6px;
+  color: #fff;
+  text-decoration: none;
+  position: relative;
+  cursor: pointer;
+}
+header nav ul li a:hover {
+  background-color: #db0d5f;
+}
+/* Footer
+-----------------------------------------------------------------------------*/
+.content_area {
+  background-color: #fff;
+  padding: 5px;
+  margin-left: auto;
+  margin-right: auto;
+  border: solid 1px #603;
+}
+footer {
+  color: #666;
+  border-top: 1px solid #ccc;
+  padding-top: 1.5em;
+}
+footer ul {
+  list-style: none;
+}
+.seq-num {
+  width: 50px;
+}
+/*Always visible menu bar*/
+.visibleDiv {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  border: solid 1px #e1e1e1;
+  vertical-align: middle;
+  text-align: left;
+  background-color: #363;
+  padding: 5px;
+  color: #693;
+}
+.visibleDiv a {
+  color: #fff;
+  text-decoration: none;
+}
+#results_container {
+  background-color: #fff;
+  padding: 5px;
+}
+.inventory_table {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: left;
+}
+.inventory_table .odd td {
+  background-color: #efa;
+  padding: 5px;
+  white-space: nowrap;
+  text-align: left;
+}
+.inventory_table .even td {
+  background-color: #fff;
+  padding: 5px;
+  white-space: nowrap;
+  text-align: left;
+}
+.inventory_table .od {
+  background-color: #336;
+}
+.inventory_table .os {
+  background-color: #600;
+}
+.inventory_table th {
+  background-color: #693;
+  padding: 5px;
+  color: #fff;
+  white-space: nowrap;
+}
+.inventory_table tr:hover td {
+  background-color: #ad6;
+  color: #333;
+  white-space: nowrap;
+}
+.inventory_table .td {
+  white-space: nowrap;
+  text-align: left;
+}
+.tolerance {
+  width: 50px;
+}
+/*Validation
+-------------------------------------------------------------------------------*/
+.error {
+  border: 1px solid #f00;
+}
+.value_adjusted {
+  border: 1px solid #ffb400;
+  background-color: #ffec73;
+}
+.value_error {
+  border: 1px solid #9e0016;
+  background-color: #fdd1d7;
+}

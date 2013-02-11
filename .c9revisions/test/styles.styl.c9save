@@ -1,0 +1,2 @@
+{"ts":1357614384546,"silentsave":true,"restoring":false,"patch":[[]],"length":0}
+{"ts":1357615495042,"patch":[[{"diffs":[[1,"body\r\n  font: 12px Helvetica, Arial, sans-serif\r\n  \r\na.button\r\n  -webkit-border-radius: 5px\r\n  -moz-border-radius: 5px\r\n  border-radius: 5px"]],"start1":0,"start2":0,"length1":0,"length2":140}]],"length":140,"saved":false}

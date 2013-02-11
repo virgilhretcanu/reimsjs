@@ -1,0 +1,392 @@
+!!!5
+html 
+    title Inventory Update
+    include includes/common_head 
+    script
+        $(document).ready(function() {
+            $('#s_type').change(function() {
+                if($(this).val() == "S")
+                {
+                    $("#s_od_add").attr("disabled","disabled").val("");
+                    $("#s_os_add").attr("disabled","disabled").val("");
+                }
+                else
+                {
+                    $("#s_od_add").removeAttr("disabled");
+                    $("#s_os_add").removeAttr("disabled");
+                }
+            });
+            
+            $('#s_eye').change(function() {
+                var val = $(this).val()
+
+                switch(val)
+                {
+                    case "OD":
+                        $("#s_od_sphere").removeAttr("disabled");
+                        $("#s_od_cylinder").removeAttr("disabled");
+                        $("#s_od_axis").removeAttr("disabled");
+                        $("#s_od_add").removeAttr("disabled");
+                        $("#s_os_sphere").attr("disabled","disabled").val("");
+                        $("#s_os_cylinder").attr("disabled","disabled").val("");
+                        $("#s_os_axis").attr("disabled","disabled").val("");
+                        $("#s_os_add").attr("disabled","disabled").val("");
+                      break;
+                    case "OS":
+                        $("#s_od_sphere").attr("disabled","disabled").val("");
+                        $("#s_od_cylinder").attr("disabled","disabled").val("");
+                        $("#s_od_axis").attr("disabled","disabled").val("");
+                        $("#s_od_add").attr("disabled","disabled").val("");
+                        $("#s_os_sphere").removeAttr("disabled");
+                        $("#s_os_cylinder").removeAttr("disabled");
+                        $("#s_os_axis").removeAttr("disabled");
+                        $("#s_os_add").removeAttr("disabled");
+                      break;
+                    default: //BOTH
+                        $("#s_od_sphere").removeAttr("disabled");
+                        $("#s_od_cylinder").removeAttr("disabled");
+                        $("#s_od_axis").removeAttr("disabled");
+                        $("#s_od_add").removeAttr("disabled");
+                        $("#s_os_sphere").removeAttr("disabled");
+                        $("#s_os_cylinder").removeAttr("disabled");
+                        $("#s_os_axis").removeAttr("disabled");
+                        $("#s_os_add").removeAttr("disabled");
+                }
+            });
+
+            $("#s_od_sphere,#s_os_sphere").blur(function(){
+                formatQuarters($(this));
+                if(parseFloat($(this).val())>0)
+                    $(this).val("+" + $(this).val());
+                if($("#s_os_sphere").val()=="")
+                    $("#s_os_sphere").val($("#s_od_sphere").val());
+                
+            }).focus(function(){
+                $(this).select();
+            });   
+        
+            $("#s_od_cylinder,#s_os_cylinder").blur(function(){
+                var obj = $(this);
+                formatQuarters(obj);
+                if(parseFloat(obj.val()) > 0)
+                   obj.val("-" + obj.val()); //always negative
+                if($("#s_os_cylinder").val()=="")
+                    $("#s_os_cylinder").val($("#s_od_cylinder").val());
+            }).focus(function(){
+                $(this).select();
+            });    
+            
+            $("#s_od_axis").blur(function(){
+                formatDegrees($(this));
+                if($("#s_os_axis").val()=="")
+                    $("#s_os_axis").val($("#s_od_axis").val());
+            }).focus(function(){
+                $(this).select();
+            });   
+            
+            $("#s_od_add").blur(function(){
+                if($("#s_os_add").val()=="")
+                    $("#s_os_add").val($("#s_od_add").val());
+            }).focus(function(){
+                $(this).select();
+            });   
+
+            $("#search_button").click(function(event){
+                if(!validate())
+                {
+                    return;
+                }
+                var $container = $("#results");
+                $container.html("<img src=/images/ajax-loader.gif> Searching...");
+                var parameter_list = "?od_sphere="      + $("#s_od_sphere").val() +
+                                     "&od_cylinder="    + $("#s_od_cylinder").val() +
+                                     "&od_axis="        + $("#s_od_axis").val() +
+                                     "&od_add="         + $("#s_od_add").val() +
+                                     "&os_sphere="      + $("#s_os_sphere").val() +
+                                     "&os_cylinder="    + $("#s_os_cylinder").val() +
+                                     "&os_axis="        + $("#s_os_axis").val() +
+                                     "&os_add="         + $("#s_os_add").val();
+
+                $container.load("/search" + parameter_list + " #list",
+                                function(){
+                                     $(".inventory_table tr:odd").addClass("odd");
+                                     $(".inventory_table tr:even").addClass("even");
+                                });
+            });
+        });
+
+        /*-------------------------------*/
+                
+        
+        function formatDegrees(obj)
+        {
+            var orig_val = obj.val();
+            if(!isNumber(orig_val))
+            {
+                obj.parent().removeClass("value_adjusted").attr("title","");
+                return;
+            }
+
+            var calc_val = Math.abs(Math.floor(orig_val));
+            
+            if( parseFloat(calc_val) == 180)
+            {
+                calc_val = 0;
+            }
+            calc_val = paddy(calc_val, 3, '0');
+            obj.val(calc_val);
+            markAdjusted(obj, orig_val, calc_val);
+        }
+            
+        function formatQuarters(obj)
+        {
+            var orig_val= obj.val();
+            if(!isNumber(orig_val))
+            {
+                obj.parent().removeClass("value_adjusted").attr("title","");
+                return;
+            }
+            var cal_val;
+            var val_floor = Math.floor(orig_val);
+            var val_abs =  Math.abs(orig_val);
+            var val_dec = val_abs - val_floor;
+            val_dec = Math.round(val_dec*100)/100;
+            var val_mod =  (val_abs-val_floor)%0.25;
+            val_mod = Math.round(val_mod*100)/100;
+            var val_diff = 0.25-val_mod;
+            val_diff = Math.round(val_diff*100)/100;
+            
+            
+            
+            /*if(parseFloat(val_dec) == 0)
+            {
+                obj.val(val_floor + ".00");
+                return;
+            }*/
+            
+            if(val_mod >= 0.13)
+            {
+                if(orig_val>=0)
+                    cal_val = parseFloat(orig_val) + parseFloat(val_diff);
+                else
+                    cal_val = parseFloat(orig_val) - parseFloat(val_diff);
+            }
+            else
+            {
+                if(orig_val>=0)
+                    cal_val = parseFloat(orig_val) - parseFloat(val_mod);
+                else
+                    cal_val = parseFloat(orig_val) + parseFloat(val_mod);
+            }
+    
+            cal_val = Math.round(cal_val*100)/100;
+            var dec = Math.abs(cal_val)- Math.abs(Math.floor(cal_val));
+       
+            if(parseFloat(dec) == 0)
+                cal_val = cal_val + ".00";
+            
+            obj.val(cal_val).attr("ov",orig_val);
+            
+            markAdjusted(obj, orig_val, cal_val);
+        }
+    
+        function markAdjusted(obj, orig_val, cal_val)
+        {
+            if(cal_val != orig_val)
+            {
+                obj.addClass("value_adjusted").attr("title","Adjusted Value, Original: " + orig_val);
+            }
+            else
+            {
+                if(obj.val() == obj.attr("ov"))
+                    obj.removeClass("value_adjusted").attr("title","");
+            }
+        }
+        
+        function validateOD()
+        {
+            var valid = true;
+            var $ods = $("#s_od_sphere");
+            var $odc = $("#s_od_cylinder");
+            var $odx = $("#s_od_axis");
+            var $oda = $("#s_od_add");
+            
+            resetError($ods);
+            resetError($odc);
+            resetError($odx);
+            resetError($oda);
+        
+            if($ods.val() == "" || !isNumber($ods.val()))
+            {
+                raiseError($ods, "Valid value required");
+                valid = false;
+            }
+
+            if($odc.val() == "" || !isNumber($odc.val()))
+            {
+                raiseError($odc, "Valid value required");
+                valid = false;
+            }  
+            
+            if($odx.val() == "" || !isNumber($odx.val()))
+            {
+                raiseError($odx, "Valid value required");
+                valid = false;
+            }
+            if($("#s_type").val() == "B")
+            {
+               
+                if($oda.val() == "" || !isNumber($oda.val()))
+                {
+                    raiseError($oda, "Valid value required");
+                    valid = false;
+                } 
+            }
+            return valid;
+        }
+
+        function validateOS()
+        {   
+            var valid = true;
+            var $oss = $("#s_os_sphere");
+            var $osc = $("#s_os_cylinder");
+            var $osx = $("#s_os_axis");
+            var $osa = $("#s_os_add");
+            
+            resetError($oss);
+            resetError($osc);
+            resetError($osx);
+            resetError($osa);
+            
+            if($oss.val() == "" || !isNumber($oss.val()))
+            {
+                raiseError($oss, "Valid value required");
+                valid = false;
+            }
+            
+            if($osc.val() == "" || !isNumber($osc.val()))
+            {
+                raiseError($osc, "Valid value required");
+                valid = false;
+            }  
+
+            if($osx.val() == "" || !isNumber($osx.val()))
+            {
+                raiseError($osx, "Valid value required");
+                valid = false;
+            }
+            if($("#s_type").val() == "B")
+            {
+
+                if($osa.val() == "" || !isNumber($osa.val()))
+                {
+                    raiseError($osa, "Valid value required");
+                    valid = false;
+                } 
+            }
+            return valid;
+        }
+        
+        function validate()
+        {
+            var eye_val = $("#s_eye").val();
+            
+            //Right Eye
+            if(eye_val== "OD")
+               return validateOD();
+            
+            //Left Eye
+            if(eye_val== "OS")
+               return validateOS();
+                                    
+            //Both Eyes
+            if(eye_val== "BOTH")
+            {
+              var vod = validateOD();
+              var vos = validateOS();
+              return  vod && vos ;
+            }
+        }
+
+body
+    include includes/menu 
+    div.content_area
+        div.searchDiv
+            table(class="centered inventory_table")
+                tr
+                    th Eyes
+                    td
+                         select#s_eye(name="s_eye", tabindex="1")
+                            option(value="BOTH", selected=true) Both
+                            option(value="OD") OD
+                            option(value="OS") OS
+                tr
+                    th Type
+                    td
+                         select#s_type(name="s_type", tabindex="1")
+                            option(value="S") Single Vision                       
+                            option(value="B", selected=true) Bifocal
+                    td
+                tr
+                    td 
+                    th.od OD / Right
+                    th.os OS / Left
+                tr
+                    th Sphere
+                    td 
+                        input#s_od_sphere(type="text", name="s_od_sphere", tabindex="1")     
+                        img(src="/images/plusMinus.png", style="vertical-align:middle;",width="10")
+                        input#s_od_sphere_tol(type="text", name="s_od_sphere_tol", tabindex="2", value="0.50").tolerance
+                    td 
+                        input#s_os_sphere(type="text", name="s_os_sphere", tabindex="8")
+                        img(src="/images/plusMinus.png", style="vertical-align:middle;",width="10")
+                        input#s_os_sphere_tol(type="text", name="s_os_sphere_tol", tabindex="9", value="0.50").tolerance
+                tr
+                    th Cylinder
+                    td 
+                        input#s_od_cylinder(type="text", name="s_od_cylinder", tabindex="3")
+                        img(src="/images/plusMinus.png", style="vertical-align:middle;",width="10")
+                        input#s_od_cylinder_tol(type="text", name="s_od_cylinder_tol", tabindex="4", value="0.50").tolerance
+                    td 
+                        input#s_os_cylinder(type="text", name="s_os_cylinder",tabindex="10")
+                        img(src="/images/plusMinus.png", style="vertical-align:middle;",width="10")
+                        input#s_os_cylinder_tol(type="text", name="s_os_cylinder_tol", tabindex="11", value="0.50").tolerance
+                tr
+                    th Axis
+                    td 
+                        input#s_od_axis(type="text", name="s_od_axis", tabindex="5")
+                        img(src="/images/plusMinus.png", style="vertical-align:middle;",width="10")
+                        input#s_od_axis_tol(type="text", name="s_od_axis_tol", tabindex="14", value="", title="Axis tolerance in percentage points").tolerance
+                        %
+                    td 
+                        input#s_os_axis(type="text", name="s_os_axis", tabindex="12")
+                        img(src="/images/plusMinus.png", style="vertical-align:middle;",width="10")
+                        input#s_os_axis_tol(type="text", name="s_os_axis_tol", tabindex="14", value="", title="Axis tolerance in percentage points").tolerance
+                        %
+                tr
+                    th Add
+                    td 
+                        input#s_od_add(type="text", name="s_od_add", tabindex="6")
+                        img(src="/images/plusMinus.png", style="vertical-align:middle;",width="10")
+                        input#s_od_add_tol(type="text", name="s_od_add_tol", tabindex="7", value="0.50").tolerance
+                    td 
+                        input#s_os_add(type="text", name="s_os_add",  tabindex="13")
+                        img(src="/images/plusMinus.png", style="vertical-align:middle;",width="10")
+                        input#s_os_add_tol(type="text", name="s_os_add_tol", tabindex="14", value="0.50").tolerance
+                
+                tr
+                    th Search Options
+                    td
+                        input#save_search(type="checkbox", name="save_search",  tabindex="15")
+                        label(for="save_search") Save Search Parameters
+
+            p.buttons
+                input#search_button(type="submit", value="Search", tabindex="16")
+        
+        div#results_container
+           form#results(method="post")
+    
+    
+        
+    
+        

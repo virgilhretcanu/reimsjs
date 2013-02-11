@@ -1,0 +1,53 @@
+!!!5
+html 
+    title Locations
+    link(rel='stylesheet', href='/stylesheets/style.css')
+body
+  h1 Locations
+
+  form#locations(method="post",action='/locations')
+    table
+        thead
+            tr
+              th(title="Location Name") Description
+              th Capacity
+              th Default Sequence
+              th                 
+        tbody
+            - each item in items
+              tr
+                td
+                  input(type="hidden", name="id_item", value=item.Location_ID)
+                  input(type="text", name="name_item", value=item.Location_Name)
+                td 
+                  input(type="text", name="capacity_item", value=item.Capacity)
+                td 
+                  select(name="position_list")
+                    option(value="") 
+                    option(value="1", selected=item.Default_Position==1) 1
+                    option(value="2", selected=item.Default_Position==2) 2
+                    option(value="3", selected=item.Default_Position==3) 3
+                    option(value="4", selected=item.Default_Position==4) 4
+                    option(value="5", selected=item.Default_Position==5) 5
+                td
+                   a(href='/del_location/'+item.Location_ID, title="Delete this location") Delete
+            tr.new_item
+                td
+                  input(type="text", name="new_name_item")
+                td 
+                  input(type="text", name="new_capacity_item")
+                td 
+                  select(name="new_position_list")
+                    option(value="", selected=true) 
+                    option(value="1") 1
+                    option(value="2") 2
+                    option(value="3") 3
+                    option(value="4") 4
+                    option(value="5") 5
+                td
+
+    p.buttons
+        input(type="submit", value="Save") 
+    
+
+

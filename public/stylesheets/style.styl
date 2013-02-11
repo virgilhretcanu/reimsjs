@@ -1,0 +1,211 @@
+/* @import "mixins/css3"*/
+
+/* Reset
+Based on http://meyerweb.com/eric/thoughts/2008/01/15/resetting-again/
+Removed elements not supported in HTML5
+-----------------------------------------------------------------------------*/
+
+html, body, div, span, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, address, cite, code,
+del, dfn, em, img, ins, kbd, q, samp,
+small, strike, strong, sub, sup, var,
+b, i,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td 
+  vertical-align baseline
+  
+/* 
+Trigger the new block level elements in to the correct content flow
+-----------------------------------------------------------------------------*/
+article, aside, dialog, figure, 
+footer, header, hgroup, menu, 
+nav, section  
+  display block 
+      
+
+/* Set up document
+-----------------------------------------------------------------------------*/
+body
+  font "Helvetica", "Arial", "Lucida Grande", "Lucida Sans", "Tahoma", "Verdana"
+  text-align center
+  background #ccc
+    
+  /*text-shadow:1px 0px 0 rgba(255,255,255,1)*/
+  
+
+input
+  font Arial, "Lucida Grande", "Lucida Sans", Tahoma, Verdana, sans-serif
+  text-align center
+  padding 5px
+  
+
+#wrapper
+  width 920px
+  text-align left 
+  margin-left auto 
+  margin-right auto
+  background #fff
+  padding 20px
+  
+ .centered
+    width 700px
+    margin-left auto 
+    margin-right auto
+    background-color #fff
+
+/* Typography
+-----------------------------------------------------------------------------*/
+/*@import "partials/typography"*/
+
+/* CSS Tables
+-----------------------------------------------------------------------------*/
+.css-table
+  width 100%
+  display table
+  .two-column
+    display table-row
+    .cell
+      display table-cell
+      vertical-align top
+      width 50%
+      *
+        width 90%
+  .three-column
+    display table-row
+    .cell
+      display table-cell
+      width 33.33333%
+      border 1px solid #000
+      border-radius 5px
+      margin 5px
+     
+      *
+        width 90%
+  .four-column
+    display table-row
+    .cell
+      display table-cell
+      width 25%
+
+/* Header
+-----------------------------------------------------------------------------*/
+header
+  background #F00060
+  nav 
+    width 960px
+    text-align right
+    margin-left auto 
+    margin-right auto
+    ul 
+      list-style none
+      padding 10px
+      margin-bottom 0
+      li 
+        display inline
+        margin-left 1%
+        a 
+          background #fc9200 
+          border-radius(15px)
+          display inline-block
+          padding 5px 15px 6px 
+          color #fff
+          text-decoration none
+          position relative
+          cursor pointer
+          &:hover
+            background-color #db0d5f 
+
+/* Footer
+-----------------------------------------------------------------------------*/
+.content_area
+    background-color #fff
+    padding 5px
+    margin-left auto 
+    margin-right auto
+    border solid 1px #660033
+
+footer
+  color #666
+  border-top 1px solid #ccc
+  padding-top 1.5em
+  ul 
+    list-style none
+
+.seq-num
+    width 50px
+
+
+
+/*Always visible menu bar*/
+.visibleDiv
+    position fixed
+    top 0px
+    left 0px
+    width 100%
+    border solid 1px #e1e1e1
+    vertical-align middle
+    text-align left
+    background-color #336633
+    padding 5px
+    color #669933
+
+.visibleDiv a
+    color #fff
+    text-decoration none
+
+#results_container
+    background-color #fff
+    padding 5px
+    
+
+.inventory_table 
+    margin-left auto 
+    margin-right auto
+    text-align left
+    .odd 
+        td
+            background-color #eeffaa
+            padding 5px
+            white-space nowrap
+            text-align left
+    .even 
+        td
+            background-color #fff
+            padding 5px
+            white-space nowrap
+            text-align left
+    .od
+        background-color #333366 
+    .os
+        background-color #660000
+    th
+        background-color #669933  
+        padding 5px
+        color #fff
+        white-space nowrap
+    tr:hover
+        td
+            background-color #aadd66
+            color #333333
+            white-space nowrap
+    .td
+        white-space nowrap
+        text-align left
+
+.tolerance
+    width 50px
+
+/*Validation
+-------------------------------------------------------------------------------*/
+.error
+    border 1px solid red 
+
+.value_adjusted
+    border 1px solid #FFB400
+    background-color #FFEC73
+
+.value_error
+    border 1px solid #9E0016  
+    background-color #FDD1D7
