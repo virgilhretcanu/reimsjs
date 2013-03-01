@@ -6,8 +6,8 @@ var express = require('express'),
     stylus = require('stylus'),
     sqlite3 = require('sqlite3').verbose(),
     db_calls = require("./db_calls"),
-    util = require("./util")
-    ;
+    util = require("./util"),
+    fs = require("fs");
 
 var app = module.exports = express.createServer();
 
@@ -39,15 +39,6 @@ app.get('/', function(req, res){
   });
 });
 
-app.post('/inventory', function(req, res){
-      console.log("adding a new glasses");
-      db_calls.addGlasses(req);
-      res.render('inventory', {
-        title: 'Add/Update Inventory'
-      });
-    res.end();
-});
-
 app.get('/search', function(req, res){
     console.log("Search Params: " + req.query["od_sphere"] + " " + req.query["od_cylinder"]);
     db_calls.searchGlasses(
@@ -68,14 +59,63 @@ app.get('/search', function(req, res){
     });
 });
 
-
-
 app.get('/inventory', function(req, res){
-      console.log("/inventory");
-      res.render('inventory', {
-            title: 'Add/Update Inventory'
+    console.log("/inventory");
+    db_calls.getNextSku(function(sku){
+        console.log(sku);
+        res.render('inventory', {
+            title: 'Add/Update Inventory',
+            reserved_sku: sku
+            });
+    });
+});
+
+app.post('/inventory', function(req, res){
+    db_calls.addGlasses(req,function(){
+        db_calls.getNextSku(function(sku){
+            res.render('inventory', {
+                title: 'Add/Update Inventory',
+                reserved_sku: sku
+            });
         });
-       res.end();
+    });
+});
+
+app.get('/inventory_list', function(req, res){
+     db_calls.getAllGlasses(function(rows){
+                res.render('partials/inventory_list', {
+                   glasses:rows
+                });
+     });
+});
+
+app.post('/inventoryadd', function(req, res){
+    db_calls.getNextSku(function(sku){
+         db_calls.addGlassesBySKU(req, sku, function(){
+             console.log("Glasses Added");
+             res.json({new_sku: sku});
+        });
+    });
+});
+
+app.post('/inventoryupdate', function(req, res){
+     db_calls.updateGlasses(req,  function(){
+             console.log("Glasses Updated");
+             res.json({new_sku: null});
+        });
+});
+
+app.post('/inventorydelete', function(req, res){
+    db_calls.deleteGlassesById(req.body.glasses_id,function(){
+            console.log("Glasses deleted");
+            res.json({new_sku: null});//have to send a response
+    });
+});
+
+app.get('/inventoryadd', function(req, res){
+    res.render('inventory_multi_add', {
+                title: 'Inventory Add(2)'
+    });
 });
 
 app.get('/inventoryall', function(req, res){
@@ -86,7 +126,27 @@ app.get('/inventoryall', function(req, res){
               });
     });
 });
+
+app.post('/backupdatabase', function(req, res){
+    console.log("Copying database file... ");
+    copyFile('reims.db3','reims_bk.db3',function(){
+        res.json({newfile: null});//have to send a response
+    })
+ });
 /*----------------------------------------------------------------------------*/
+/*Functions */
+
+function copyFile(source, destination, callback){
+  fs.readFile(source, function(err, buf){
+    if (err)
+    {
+        return callback(err)
+    }
+    fs.writeFile(destination, buf, callback);
+  })
+}
+/*-----------------------------------------------------------------------------*/
+
 app.get('/locations', function(req, res){
     //displayLocations(res);
 });

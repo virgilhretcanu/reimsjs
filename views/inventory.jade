@@ -1,13 +1,13 @@
 !!!5
-html 
+html
     title Inventory Update
-    include includes/common_head  
-    
+    include includes/common_head
+
     script
         $(document).ready(function() {
           //$('#od_sphere').mask('99999.99');
-          applyUIStyle();    
-          
+          applyUIStyle();
+
           $('#type').change(function() {
                 if($(this).val() == "S")
                 {
@@ -31,8 +31,8 @@ html
                 formatQuarters($(this));
                 if($("#os_sphere").val()=="")
                     $("#os_sphere").val($("#od_sphere").val());
-            });   
-        
+            });
+
         $("#od_cylinder,#os_cylinder").blur(function(){
                 var obj = $(this);
                 formatQuarters(obj);
@@ -40,14 +40,14 @@ html
                    obj.val("-" + obj.val()); //always negative
                 if($("#os_cylinder").val()=="")
                     $("#os_cylinder").val($("#od_cylinder").val());
-            }); 
+            });
 
             $("#od_add").blur(function(){
                 if($("#os_add").val()=="")
                     $("#os_add").val($("#od_add").val());
             });
         });
-        
+
         function applyUIStyle()
         {
             $("#od_sphere,#os_sphere,#od_cylinder,#os_cylinder,#od_axis,#os_axis").parent().tooltip();
@@ -56,7 +56,7 @@ html
         function isNumber(n) {
           return !isNaN(parseFloat(n)) && isFinite(n);
         }
-        
+
         function formatDegrees(obj)
         {
             var orig_val = obj.val();
@@ -67,18 +67,18 @@ html
             }
 
             var calc_val = Math.abs(Math.floor(orig_val));
-            
+
             if( parseFloat(calc_val) == 180)
             {
                 calc_val = 0;
             }
-            
+
             calc_val = paddy(calc_val, 3, '0');
-            
+
             obj.val(calc_val);
             markAdjusted(obj, orig_val, calc_val);
         }
-        
+
         function formatQuarters(obj)
         {
             var orig_val= obj.val();
@@ -96,7 +96,7 @@ html
             val_mod = Math.round(val_mod*100)/100;
             var val_diff = 0.25-val_mod;
             val_diff = Math.round(val_diff*100)/100;
-            
+
             if(val_mod >= 0.125) /* 0.25 / 2 = 0.125 */
             {
                 if(orig_val>=0)
@@ -111,17 +111,17 @@ html
                 else
                     cal_val = parseFloat(orig_val) + parseFloat(val_mod);
             }
-    
+
             cal_val = Math.round(cal_val*100)/100;
             var dec = Math.abs(cal_val)- Math.abs(Math.floor(cal_val));
-        
+
             if(parseFloat(dec) == 0)
                 cal_val = cal_val + ".00";
             obj.val(cal_val).attr("ov",orig_val);
-            
+
             markAdjusted(obj, orig_val, cal_val);
         }
-    
+
         function markAdjusted(obj, orig_val, cal_val)
         {
             if(cal_val != orig_val)
@@ -147,12 +147,12 @@ html
                 $("#type").wrap("<div class=\"error\">Required Field</div>");
             }
             var odshere_v = $("od_sphere").val();
-            
+
 
             return valid;
         }
 body
-  include includes/menu  
+  include includes/menu
   h1 Inventory Update
   span.explations The inventory number will be automatically generated
 
@@ -160,45 +160,45 @@ body
       form#locations(method="post",action='/inventory')
         table(class="centered")
             tbody
-                tr(title="Inventory Number") 
+                tr(title="Inventory Number")
                     th SKU
-                    td 
-                        input(id="sku",type="text", name="sku", /*disabled="disabled",*/value="12345")
-                tr(title="Type") 
+                    td
+                        input(id="sku",type="text", name="sku", /*disabled="disabled",*/ value=reserved_sku)
+                tr(title="Type")
                     th Type
-                    td 
+                    td
                         select(id="type",name="type", tabindex="1")
                             option(value="")
-                            option(value="S") Single Vision                       
+                            option(value="S") Single Vision
                             option(value="B", selected=true) Bifocal
-                tr(title="Gender") 
+                tr(title="Gender")
                     th Gender
-                    td 
+                    td
                         select(name="gender",tabindex="2")
                             option(value="")
-                            option(value="M") Male                        
-                            option(value="M") Female                        
+                            option(value="M") Male
+                            option(value="M") Female
                             option(value="U", selected=true) Unisex
-                tr(title="Size") 
+                tr(title="Size")
                     th Size
-                    td 
+                    td
                          select(name="size",tabindex="3")
                             option(value="")
                             option(value="C") Child
-                            option(value="S") Small                     
+                            option(value="S") Small
                             option(value="M", selected=true) Medium
                             option(value="L") Large
-                tr(title="Tint") 
+                tr(title="Tint")
                     th Tint
-                    td 
+                    td
                          select(name="tint",tabindex="4")
                             option(value="")
                             option(value="N", selected=true) No
                             option(value="D") Dark
                             option(value="L") Light
-                tr(title="Material") 
+                tr(title="Material")
                     th Material
-                    td 
+                    td
                          select(name="material",tabindex="5")
                             option(value="")
                             option(value="M", selected=true) Metal
@@ -206,37 +206,37 @@ body
         hr
         table(class="centered")
             tr
-                th 
+                th
                 th OD / Right
                 th OS / Left
             tr
                 th Sphere
-                td 
-                    input#od_sphere(type="text", name="od_sphere", tabindex="6")     
+                td
+                    input#od_sphere(type="text", name="od_sphere", tabindex="6")
                     div(id="debug")
-                td 
+                td
                     input#os_sphere(type="text", name="os_sphere", tabindex="10")
             tr
                 th Cylinder
-                td 
+                td
                     input#od_cylinder(type="text", name="od_cylinder", tabindex="7")
-                td 
+                td
                     input#os_cylinder(type="text", name="os_cylinder",tabindex="11")
             tr
                 th Axis
-                td 
+                td
                     input#od_axis(type="text", name="od_axis", tabindex="8")
-                td 
+                td
                     input#os_axis(type="text", name="os_axis", tabindex="12")
             tr
                 th Add
-                td 
+                td
                     input#od_add(type="text", name="od_add", tabindex="9")
-                td 
+                td
                     input#os_add(type="text", name="os_add", tabindex="13")
-    
+
         p.buttons
-            input(type="submit", value="Save", onclick="return validate()", tabindex="14") 
-    
+            input(type="submit", value="Save", onclick="return validate()", tabindex="14")
+
 
 

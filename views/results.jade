@@ -1,5 +1,18 @@
 div#list
-    span.explanation Showing first 100 matches
+    span.explanation
+    - var dateFormat = function(d,t){
+    -   var return_date;
+    -   var d1 = d.split(" ")[0];
+    -   var year = d1.split("-")[0].substring(2);
+    -   var month = d1.split("-")[1];
+    -   var day = d1.split("-")[2];
+    -   return_date = month +"/" + day + "/" + year;
+    -   if(t){
+    -       var d2 = d.split(" ")[1];
+    -       return_date = return_date + " " + d2;
+    -   }
+    -   return return_date;
+    - }
     table.inventory_table
         thead
             th #
@@ -9,7 +22,7 @@ div#list
             th Size
             th Tint
             th Material
-            th.od 
+            th.od
                 a#od_s OD Sphere
             th.od OD Cylinder
             th.od OD Axis
@@ -19,64 +32,51 @@ div#list
             th.os OS Axis
             th.os OS Add
 
-            th.od OD_S
-            th.od OD_C
-            th.od OD_X
-            th.od OD_D
-            th.os OS_S
-            th.os OS_C
-            th.os OS_X
-            th.os OS_D
-
             th Added
             th Dispensed
-        
+
         tbody
+            - var idx = 0
             - items.forEach(function(item){
+                - idx = idx  + 1
                 tr
-                    td= item.vscore
+                    td= idx
                     td= item.sku
                     td= item.type
                     td= item.gender
                     td= item.size
                     td= item.tint
                     td= item.material
-                    if item.od_sphere > 0 
+                    if item.od_sphere > 0
                         if item.od_sphere % 1 == 0
                             td +#{item.od_sphere}.00
                         else
                             td +#{item.od_sphere}
                     else
                         td #{item.od_sphere}
-                    if item.od_cylinder != "" && item.od_cylinder % 1 == 0    
+                    if item.od_cylinder != "" && item.od_cylinder % 1 == 0
                         td #{item.od_cylinder}.00
                     else
                         td #{item.od_cylinder}
                     td= item.od_axis
                     td= item.od_add
-                    if item.os_sphere > 0 
+                    if item.os_sphere > 0
                         if item.os_sphere % 1 == 0
                             td +#{item.os_sphere}.00
                         else
                             td +#{item.os_sphere}
                     else
-                        td #{item.os_sphere}    
-                    if item.os_cylinder != "" && item.os_cylinder % 1 == 0    
+                        td #{item.os_sphere}
+                    if item.os_cylinder != "" && item.os_cylinder % 1 == 0
                         td #{item.os_cylinder}.00
                     else
                         td #{item.os_cylinder}
                     td= item.os_axis
                     td= item.os_add
 
-                    td= item.od_s
-                    td= item.od_c
-                    td= item.od_x
-                    td= item.od_d
-                    td= item.os_s
-                    td= item.os_c
-                    td= item.os_x
-                    td= item.os_d
-
-                    td= item.create_date
-                    td= item.dispensed
+                    td #{dateFormat(item.create_date, false)}
+                    if item.dispensed == 0
+                        td No
+                    else
+                        td Yes
             - })

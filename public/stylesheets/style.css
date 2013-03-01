@@ -59,7 +59,7 @@ th,
 td {
   vertical-align: baseline;
 }
-/* 
+/*
 Trigger the new block level elements in to the correct content flow
 -----------------------------------------------------------------------------*/
 article,
@@ -77,7 +77,7 @@ section {
 /* Set up document
 -----------------------------------------------------------------------------*/
 body {
-  font: "Helvetica", "Arial", "Lucida Grande", "Lucida Sans", "Tahoma", "Verdana";
+  font-family: "Helvetica", "Arial", "Lucida Grande", "Lucida Sans", "Tahoma", "Verdana";
   text-align: center;
   background: #ccc;
 /*text-shadow:1px 0px 0 rgba(255,255,255,1)*/
@@ -96,7 +96,6 @@ input {
   padding: 20px;
 }
 .centered {
-  width: 700px;
   margin-left: auto;
   margin-right: auto;
   background-color: #fff;
@@ -218,39 +217,60 @@ footer ul {
   margin-left: auto;
   margin-right: auto;
   text-align: left;
+  border-spacing: 0;
+  border-collapse: collapse;
 }
 .inventory_table .odd td {
-  background-color: #efa;
+  background-color: #eef;
   padding: 5px;
   white-space: nowrap;
-  text-align: left;
+}
+.inventory_table .odd .od {
+  color: #1a1e3e;
+}
+.inventory_table .odd .os {
+  color: #2c1d1a;
 }
 .inventory_table .even td {
   background-color: #fff;
   padding: 5px;
   white-space: nowrap;
-  text-align: left;
 }
-.inventory_table .od {
-  background-color: #336;
+.inventory_table .even .od {
+  color: #1a1e3e;
 }
-.inventory_table .os {
-  background-color: #600;
+.inventory_table .even .os {
+  color: #2c1d1a;
 }
 .inventory_table th {
-  background-color: #693;
+  background-color: #aaa;
   padding: 5px;
-  color: #fff;
+  color: #000;
   white-space: nowrap;
+  text-align: center;
+  border-left: #fff 1px solid;
+  border-top: #fff 1px solid;
 }
 .inventory_table tr:hover td {
-  background-color: #ad6;
-  color: #333;
+  background-color: #ddd;
   white-space: nowrap;
 }
-.inventory_table .td {
+.inventory_table td {
   white-space: nowrap;
-  text-align: left;
+  text-align: center;
+  border-bottom: 1px #ddd solid;
+  margin: 0px;
+  color: #313444;
+}
+.inventory_table .od {
+  background-color: #afc9c9;
+}
+.inventory_table .os {
+  background-color: #e0c3d3;
+}
+.inventory_table input,
+.inventory_table select {
+  font-size: 110%;
 }
 .tolerance {
   width: 50px;
@@ -267,4 +287,11 @@ footer ul {
 .value_error {
   border: 1px solid #9e0016;
   background-color: #fdd1d7;
+}
+/*-----------------------------------------------------------------------------*/
+input.prescription {
+  width: 50px;
+}
+.highlight_row td {
+  background-color: #ffec73;
 }

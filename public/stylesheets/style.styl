@@ -13,45 +13,45 @@ small, strike, strong, sub, sup, var,
 b, i,
 dl, dt, dd, ol, ul, li,
 fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td 
+table, caption, tbody, tfoot, thead, tr, th, td
   vertical-align baseline
-  
-/* 
+
+/*
 Trigger the new block level elements in to the correct content flow
 -----------------------------------------------------------------------------*/
-article, aside, dialog, figure, 
-footer, header, hgroup, menu, 
-nav, section  
-  display block 
-      
+article, aside, dialog, figure,
+footer, header, hgroup, menu,
+nav, section
+  display block
+
 
 /* Set up document
 -----------------------------------------------------------------------------*/
 body
-  font "Helvetica", "Arial", "Lucida Grande", "Lucida Sans", "Tahoma", "Verdana"
+  font-family "Helvetica", "Arial", "Lucida Grande", "Lucida Sans", "Tahoma", "Verdana"
   text-align center
   background #ccc
-    
+
   /*text-shadow:1px 0px 0 rgba(255,255,255,1)*/
-  
+
 
 input
   font Arial, "Lucida Grande", "Lucida Sans", Tahoma, Verdana, sans-serif
   text-align center
   padding 5px
-  
+
 
 #wrapper
   width 920px
-  text-align left 
-  margin-left auto 
+  text-align left
+  margin-left auto
   margin-right auto
   background #fff
   padding 20px
-  
+
  .centered
-    width 700px
-    margin-left auto 
+
+    margin-left auto
     margin-right auto
     background-color #fff
 
@@ -80,7 +80,7 @@ input
       border 1px solid #000
       border-radius 5px
       margin 5px
-     
+
       *
         width 90%
   .four-column
@@ -93,36 +93,36 @@ input
 -----------------------------------------------------------------------------*/
 header
   background #F00060
-  nav 
+  nav
     width 960px
     text-align right
-    margin-left auto 
+    margin-left auto
     margin-right auto
-    ul 
+    ul
       list-style none
       padding 10px
       margin-bottom 0
-      li 
+      li
         display inline
         margin-left 1%
-        a 
-          background #fc9200 
+        a
+          background #fc9200
           border-radius(15px)
           display inline-block
-          padding 5px 15px 6px 
+          padding 5px 15px 6px
           color #fff
           text-decoration none
           position relative
           cursor pointer
           &:hover
-            background-color #db0d5f 
+            background-color #db0d5f
 
 /* Footer
 -----------------------------------------------------------------------------*/
 .content_area
     background-color #fff
     padding 5px
-    margin-left auto 
+    margin-left auto
     margin-right auto
     border solid 1px #660033
 
@@ -130,7 +130,7 @@ footer
   color #666
   border-top 1px solid #ccc
   padding-top 1.5em
-  ul 
+  ul
     list-style none
 
 .seq-num
@@ -158,54 +158,80 @@ footer
 #results_container
     background-color #fff
     padding 5px
-    
 
-.inventory_table 
-    margin-left auto 
+
+.inventory_table
+    margin-left auto
     margin-right auto
     text-align left
-    .odd 
+    border-spacing 0
+    border-collapse collapse
+    .odd
         td
-            background-color #eeffaa
+            background-color #eef
             padding 5px
             white-space nowrap
-            text-align left
-    .even 
+        .od
+            color #1A1E3E
+        .os
+            color #2C1D1A
+    .even
         td
             background-color #fff
             padding 5px
             white-space nowrap
-            text-align left
-    .od
-        background-color #333366 
-    .os
-        background-color #660000
+        .od
+            color #1A1E3E
+        .os
+            color #2C1D1A
     th
-        background-color #669933  
+        background-color #aaa
         padding 5px
-        color #fff
+        color #000
         white-space nowrap
+        text-align center
+        border-left #fff 1px solid
+        border-top #fff 1px solid
     tr:hover
         td
-            background-color #aadd66
-            color #333333
+            background-color #ddd
             white-space nowrap
-    .td
+    td
         white-space nowrap
-        text-align left
+        text-align center
+        border-bottom 1px #ddd solid
+        margin 0px
+        color #313444
+    .od
+        background-color #AFC9C9
 
+    .os
+        background-color #E0C3D3
+
+    input, select
+        font-size 110%
 .tolerance
     width 50px
 
 /*Validation
 -------------------------------------------------------------------------------*/
 .error
-    border 1px solid red 
+    border 1px solid red
 
 .value_adjusted
     border 1px solid #FFB400
     background-color #FFEC73
 
 .value_error
-    border 1px solid #9E0016  
+    border 1px solid #9E0016
     background-color #FDD1D7
+
+/*-----------------------------------------------------------------------------*/
+input.prescription
+    width 50px
+
+.highlight_row
+    td
+        background-color #FFEC73
+
+

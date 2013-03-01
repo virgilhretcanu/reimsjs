@@ -2,24 +2,31 @@
 html
    head
       title= title
-     link(rel='stylesheet', href='/stylesheets/style.css')
+      link(rel='stylesheet', href='/stylesheets/style.css')
+      include includes/common_head
+      script
+
+        $(document).ready(function() {
+            backUpDatabase();
+        });
+
+        function backUpDatabase()
+        {
+         var $container = $("#db");
+         $container.html("<img src=/images/ajax-loader.gif> Searching...");
+         $.post('/backupdatabase',function(data) {
+            $container.html("Database backed up successfully: ");
+         });
+        }
+
 body
 
-h1 Welcome to REIMS 
+h1 Welcome to REIMS
 h2 Richmond Eyeglass Inventory Matching System
-
+div#db
 section.css-table
   section.three-column
-      a(href='inventory').cell
+     a(href='inventoryadd').cell
         h2 Add to Inventory
-      a(href='match').cell 
-        h2 Search for matches
-      a(href='locations').cell 
-        h2 Set up Locations
-  section.three-column
       a(href='inventoryall').cell
         h2 Entire Inventory
-      a(href='match').cell 
-        h2 Search for matches
-      a(href='locations').cell 
-        h2 Set up Locations

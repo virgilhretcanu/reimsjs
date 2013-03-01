@@ -26,3 +26,35 @@
 {"ts":1360203942786,"patch":[[{"diffs":[[0,"   cylinder "],[-1,"REAL"],[1,"TEXT"],[0,",\r\n    tol_m"]],"start1":1973,"start2":1973,"length1":28,"length2":28}]],"length":2030,"saved":false}
 {"ts":1360203956885,"patch":[[{"diffs":[[0," TEXT\r\n)\r\n\r\n"],[1,"DROP TABLE axis_tolerance;\r\n\r\n"],[0,"CREATE TABLE"]],"start1":1901,"start2":1901,"length1":24,"length2":54}]],"length":2060,"saved":false}
 {"ts":1360203962815,"patch":[[{"diffs":[[0,"l_max INT\r\n)"],[1,";"],[0,"\r\n"]],"start1":2046,"start2":2046,"length1":14,"length2":15}]],"length":2061,"saved":false}
+{"contributors":[],"silentsave":true,"ts":1361341238298,"patch":[[{"diffs":[[0,"ax INT\r\n);\r\n"],[1,"\r\n"]],"start1":2049,"start2":2049,"length1":12,"length2":14}]],"length":2063,"saved":false}
+{"ts":1361341241242,"patch":[[{"diffs":[[0,"max INT\r\n);\r"],[1,"\n-----------------------------------\r"],[0,"\n\r\n"]],"start1":2048,"start2":2048,"length1":15,"length2":52}]],"length":2100,"saved":false}
+{"ts":1361341243003,"patch":[[{"diffs":[[0,"--------------------------\r\n"],[1,"DROP TAB"],[0,"\r\n"]],"start1":2070,"start2":2070,"length1":30,"length2":38}]],"length":2108,"saved":false}
+{"ts":1361341244136,"patch":[[{"diffs":[[0,"DROP TAB"],[1,"LE"],[0,"\r\n"]],"start1":2098,"start2":2098,"length1":10,"length2":12}]],"length":2110,"saved":false}
+{"ts":1361341245082,"patch":[[{"diffs":[[0,"OP TABLE"],[1," "],[0,"\r\n"]],"start1":2100,"start2":2100,"length1":10,"length2":11}]],"length":2111,"saved":false}
+{"ts":1361341308432,"patch":[[{"diffs":[[0,"P TABLE "],[1,"reserved_"],[0,"\r\n"]],"start1":2101,"start2":2101,"length1":10,"length2":19}]],"length":2120,"saved":false}
+{"ts":1361341308832,"patch":[[{"diffs":[[0," glasses"],[-1," "],[0,"\r\n      "]],"start1":65,"start2":65,"length1":17,"length2":16},{"diffs":[[0,"CREMENT,"],[-1," "],[0,"\r\n      "]],"start1":144,"start2":144,"length1":17,"length2":16}]],"length":2118,"saved":false}
+{"ts":1361341314594,"patch":[[{"diffs":[[0,"eserved_"],[1,"sku"],[0,"\r\n"]],"start1":2108,"start2":2108,"length1":10,"length2":13}]],"length":2121,"saved":false}
+{"ts":1361341321366,"patch":[[{"diffs":[[0,"ed_sku\r\n"],[1,"\r\n\r\n"]],"start1":2113,"start2":2113,"length1":8,"length2":12}]],"length":2125,"saved":false}
+{"ts":1361341324252,"patch":[[{"diffs":[[0,"rved_sku\r\n\r\n"],[1,"CREATE "],[0,"\r\n"]],"start1":2111,"start2":2111,"length1":14,"length2":21}]],"length":2132,"saved":false}
+{"ts":1361341329304,"patch":[[{"diffs":[[0,"rved_sku"],[1,";"],[0,"\r\n\r\nCREA"]],"start1":2111,"start2":2111,"length1":16,"length2":17}]],"length":2133,"saved":false}
+{"ts":1361341331964,"patch":[[{"diffs":[[0,"\nCREATE "],[1,"TABLE "],[0,"\r\n"]],"start1":2123,"start2":2123,"length1":10,"length2":16}]],"length":2139,"saved":false}
+{"ts":1361341337276,"patch":[[{"diffs":[[0,"E TABLE "],[1,"reserved_sku\r\n"],[0,"\r\n"]],"start1":2129,"start2":2129,"length1":10,"length2":24}]],"length":2153,"saved":false}
+{"ts":1361341339131,"patch":[[{"diffs":[[0,"ed_sku\r\n"],[1,"(\r\n\r\n\r\n)"],[0,"\r\n"]],"start1":2143,"start2":2143,"length1":10,"length2":18}]],"length":2161,"saved":false}
+{"ts":1361341339532,"patch":[[{"diffs":[[0,"sku\r\n(\r\n"],[1,"    "],[0,"\r\n\r\n)\r\n"]],"start1":2146,"start2":2146,"length1":15,"length2":19}]],"length":2165,"saved":false}
+{"ts":1361341345533,"patch":[[{"diffs":[[0,"\n(\r\n    "],[1,"sku "],[0,"\r\n\r\n)\r\n"]],"start1":2150,"start2":2150,"length1":15,"length2":19}]],"length":2169,"saved":false}
+{"ts":1361341345947,"patch":[[{"diffs":[[0,"\n    sku"],[-1," "],[0,"\r\n\r\n)\r\n"]],"start1":2153,"start2":2153,"length1":16,"length2":15}]],"length":2168,"saved":false}
+{"ts":1361341363416,"patch":[[{"diffs":[[0,"\n    sku"],[1," INTEGER NOT NULL,"],[0,"\r\n\r\n)\r\n"]],"start1":2153,"start2":2153,"length1":15,"length2":33}]],"length":2186,"saved":false}
+{"ts":1361341367486,"patch":[[{"diffs":[[0,"sku\r\n(\r\n    sku "],[-1,"INTEGER"],[1,"T"],[0," NOT NULL,\r\n\r\n)\r"]],"start1":2146,"start2":2146,"length1":39,"length2":33}]],"length":2180,"saved":false}
+{"ts":1361341369524,"patch":[[{"diffs":[[0,"   sku T"],[1,"EXT"],[0," NOT NUL"]],"start1":2155,"start2":2155,"length1":16,"length2":19}]],"length":2183,"saved":false}
+{"ts":1361341373774,"patch":[[{"diffs":[[0," NULL,\r\n"],[1,"    "],[0,"\r\n)\r\n"]],"start1":2170,"start2":2170,"length1":13,"length2":17}]],"length":2187,"saved":false}
+{"ts":1361341393587,"patch":[[{"diffs":[[0,"L,\r\n    "],[1,"reserve_ti"],[0,"\r\n)\r\n"]],"start1":2174,"start2":2174,"length1":13,"length2":23}]],"length":2197,"saved":false}
+{"ts":1361341394001,"patch":[[{"diffs":[[0,"serve_ti"],[1,"me"],[0,"\r\n)\r\n"]],"start1":2184,"start2":2184,"length1":13,"length2":15}]],"length":2199,"saved":false}
+{"ts":1361341450146,"patch":[[{"diffs":[[0,"rve_time"],[1," T"],[0,"\r\n)\r\n"]],"start1":2186,"start2":2186,"length1":13,"length2":15}]],"length":2201,"saved":false}
+{"ts":1361341451194,"patch":[[{"diffs":[[0,"e_time T"],[1,"EX"],[0,"\r\n)\r\n"]],"start1":2188,"start2":2188,"length1":13,"length2":15}]],"length":2203,"saved":false}
+{"ts":1361341452221,"patch":[[{"diffs":[[0,"time TEX"],[1,"T"],[0,"\r\n)\r\n"]],"start1":2190,"start2":2190,"length1":13,"length2":14}]],"length":2204,"saved":false}
+{"ts":1361341456854,"patch":[[{"diffs":[[0,"ve_time TEXT"],[1,",\r\n"],[0,"\r\n)\r\n"]],"start1":2187,"start2":2187,"length1":17,"length2":20}]],"length":2207,"saved":false}
+{"ts":1361341465817,"patch":[[{"diffs":[[0," TEXT,\r\n"],[1,"    "],[0,"\r\n)\r\n"]],"start1":2194,"start2":2194,"length1":13,"length2":17}]],"length":2211,"saved":false}
+{"ts":1361341594327,"patch":[[{"diffs":[[0,"ve_time TEXT"],[-1,","],[0,"\r\n    \r\n)\r\n"]],"start1":2187,"start2":2187,"length1":24,"length2":23}]],"length":2210,"saved":false}
+{"ts":1361341595547,"patch":[[{"diffs":[[0,"XT\r\n"],[-1,"    \r\n"],[0,")\r\n"]],"start1":2197,"start2":2197,"length1":13,"length2":7}]],"length":2204,"saved":false}
+{"ts":1361341599786,"patch":[[{"diffs":[[0,"ve_time TEXT"],[1," NO"],[0,"\r\n)\r\n"]],"start1":2187,"start2":2187,"length1":17,"length2":20}]],"length":2207,"saved":false}
+{"ts":1361341601431,"patch":[[{"diffs":[[0," TEXT NO"],[1,"T NULL"],[0,"\r\n)\r\n"]],"start1":2194,"start2":2194,"length1":13,"length2":19}]],"length":2213,"saved":false}

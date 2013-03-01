@@ -3,9 +3,9 @@ Create Table glasses
 */
 DROP TABLE glasses;
 
-CREATE TABLE glasses 
+CREATE TABLE glasses
         (
-            glasses_id integer NOT NULL PRIMARY KEY AUTOINCREMENT, 
+            glasses_id integer NOT NULL PRIMARY KEY AUTOINCREMENT,
             sku INTEGER NOT NULL,
 
             type varchar(1) not null /*CHECK (type IN ('S','B'))*/,
@@ -85,3 +85,11 @@ CREATE TABLE axis_tolerance
     tol_min INT,
     tol_max INT
 );
+-----------------------------------
+DROP TABLE reserved_sku;
+
+CREATE TABLE reserved_sku
+(
+    sku TEXT NOT NULL,
+    reserve_time TEXT NOT NULL
+)
