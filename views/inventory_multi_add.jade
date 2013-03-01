@@ -1,0 +1,529 @@
+!!!5
+html
+    title Inventory Update
+    include includes/common_head
+
+    script
+        $(document).ready(function() {
+          //$('#od_sphere').mask('99999.99');
+          applyUIStyle();
+          resetInputs();
+          displayGlasses();
+          $('#type').change(function() {
+                if($(this).val() == "S")
+                {
+                    $("#od_add").attr("disabled","disabled").val("");
+                    $("#os_add").attr("disabled","disabled").val("");
+                }
+                else
+                {
+                    $("#od_add").removeAttr("disabled");
+                    $("#os_add").removeAttr("disabled");
+                }
+            });
+
+         $("#od_axis,#os_axis").blur(function(){
+                formatDegrees($(this));
+                if($("#os_axis").val()=="")
+                    $("#os_axis").val($("#od_axis").val());
+            });
+
+         $("#od_sphere,#os_sphere").blur(function(){
+                formatQuarters($(this));
+                if($("#os_sphere").val()=="")
+                    $("#os_sphere").val($("#od_sphere").val());
+            });
+
+        $("#od_cylinder,#os_cylinder").blur(function(){
+                var obj = $(this);
+                formatQuarters(obj);
+                if(parseFloat(obj.val()) > 0)
+                   obj.val("-" + obj.val()); //always negative
+                if($("#os_cylinder").val()=="")
+                    $("#os_cylinder").val($("#od_cylinder").val());
+            });
+
+            $("#od_add").blur(function(){
+                if($("#os_add").val()=="")
+                    $("#os_add").val($("#od_add").val());
+            });
+        });
+
+        function applyUIStyle()
+        {
+            $("#od_sphere,#os_sphere,#od_cylinder,#os_cylinder,#od_axis,#os_axis,#od_add,#os_add").tooltip();
+        }
+
+        function isNumber(n) {
+          return !isNaN(parseFloat(n)) && isFinite(n);
+        }
+
+        function formatDegrees(obj)
+        {
+            var orig_val = obj.val();
+            if(!isNumber(orig_val))
+            {
+                obj.parent().removeClass("value_adjusted").attr("title","");
+                return;
+            }
+
+            var calc_val = Math.abs(Math.floor(orig_val));
+
+            if( parseFloat(calc_val) == 180)
+            {
+                calc_val = 0;
+            }
+
+            calc_val = paddy(calc_val, 3, '0');
+
+            obj.val(calc_val);
+            markAdjusted(obj, orig_val, calc_val);
+        }
+
+        function formatQuarters(obj)
+        {
+            var orig_val= obj.val();
+            if(!isNumber(orig_val))
+            {
+                obj.parent().removeClass("value_adjusted").attr("title","");
+                return;
+            }
+            var cal_val;
+            var val_floor = Math.floor(orig_val);
+            var val_abs =  Math.abs(orig_val);
+            var val_dec = val_abs - val_floor;
+            val_dec = Math.round(val_dec*100)/100;
+            var val_mod =  (val_abs-val_floor)%0.25;
+            val_mod = Math.round(val_mod*100)/100;
+            var val_diff = 0.25-val_mod;
+            val_diff = Math.round(val_diff*100)/100;
+
+            if(val_mod >= 0.125) /* 0.25 / 2 = 0.125 */
+            {
+                if(orig_val>=0)
+                    cal_val = parseFloat(orig_val) + parseFloat(val_diff);
+                else
+                    cal_val = parseFloat(orig_val) - parseFloat(val_diff);
+            }
+            else
+            {
+                if(orig_val>=0)
+                    cal_val = parseFloat(orig_val) - parseFloat(val_mod);
+                else
+                    cal_val = parseFloat(orig_val) + parseFloat(val_mod);
+            }
+
+            cal_val = Math.round(cal_val*100)/100;
+            var dec = Math.abs(cal_val)- Math.abs(Math.floor(cal_val));
+
+            if(parseFloat(dec) == 0)
+                cal_val = cal_val + ".00";
+            obj.val(cal_val).attr("ov",orig_val);
+
+            markAdjusted(obj, orig_val, cal_val);
+        }
+
+        function markAdjusted(obj, orig_val, cal_val)
+        {
+            if(cal_val != orig_val)
+            {
+                obj.parent().addClass("value_adjusted").attr("title","Adjusted Value, Original: " + orig_val);
+            }
+            else
+            {
+                if(obj.val() == obj.attr("ov"))
+                    obj.parent().removeClass("value_adjusted").attr("title","");
+            }
+        }
+
+        function validate()
+        {
+            var valid = true;
+
+            var $typ = $("#type");
+            var $gen = $("#gender");
+            var $sz = $("#size");
+            var $tnt = $("#tint");
+            var $mat = $("#material");
+
+            var $od_s = $("#od_sphere");
+            var $od_c = $("#od_cylinder");
+            var $od_x = $("#od_axis");
+            var $od_a = $("#od_add");
+            var $os_s = $("#os_sphere");
+            var $os_c = $("#os_cylinder");
+            var $os_x = $("#os_axis");
+            var $os_a = $("#os_add");
+
+            resetError($typ);
+            resetError($gen);
+            resetError($sz);
+            resetError($tnt);
+            resetError($mat);
+
+            resetError($od_s);
+            resetError($od_c);
+            resetError($od_x);
+            resetError($od_a);
+
+            resetError($os_s);
+            resetError($os_c);
+            resetError($os_x);
+            resetError($os_a);
+
+            if($typ.val() == "")
+            {
+                valid = false;
+                raiseError($typ,"Required Field");
+            }
+            if($gen.val() == "")
+            {
+                valid = false;
+                raiseError($gen,"Required Field");
+            }
+            if($sz.val() == "")
+            {
+                valid = false;
+                raiseError($sz,"Required Field");
+            }
+            if($tnt.val() == "" )
+            {
+                valid = false;
+                raiseError($tnt,"Required Field");
+            }
+            if($mat.val() == "")
+            {
+                valid = false;
+                raiseError($mat,"Required Field");
+            }
+
+            if( $od_s.val() == "" )
+            {
+                valid = false;
+                raiseError($od_s,"Required Field");
+            }else
+                if( !isNumber($od_s.val()))
+                {
+                    valid = false;
+                    raiseError($od_s,"Invalid Number");
+                }
+
+            if( $od_c.val() == "" )
+            {
+                valid = false;
+                raiseError($od_c);
+            }else
+                if(!isNumber($od_x.val()))
+                {
+                    valid = false;
+                    raiseError($od_c, "Invalid Number");
+                }
+            if( $od_x.val() == "" )
+            {
+                valid = false;
+                raiseError($od_x,"Required Field");
+            }
+            else
+                if(!isNumber($od_x.val()))
+                {
+                     valid = false;
+                     raiseError($od_x, "Invalid Number");
+                }
+            if( $od_a.val() == "")
+            {
+                valid = false;
+                raiseError($od_a, "Required Field");
+            }
+            else
+                if(!isNumber($od_a.val()))
+                {
+                    valid = false;
+                    raiseError($od_a, "Invalid Number");
+                }
+
+            if( $os_s.val() == "")
+            {
+                valid = false;
+                raiseError($os_s, "Required Field");
+            }
+            else
+                if(!isNumber($os_s.val()))
+                {
+                    valid = false;
+                    raiseError($os_s, "Invalid Number");
+                }
+            if( $os_c.val() == "")
+            {
+                valid = false;
+                raiseError($os_c, "Required Field");
+            }
+            else
+                if(!isNumber($os_c.val()))
+                {
+                    valid = false;
+                    raiseError($os_c, "Invalid Number");
+                }
+            if( $os_x.val() == "" )
+            {
+                valid = false;
+                raiseError($os_x, "Required Field");
+            }
+            else
+                if(!isNumber($os_x.val()))
+                {
+                    valid = false;
+                    raiseError($os_x, "Invalid Number");
+                }
+            if( $os_a.val() == "")
+            {
+                valid = false;
+                raiseError($os_a, "Required Field");
+            }
+            else
+                if(!isNumber($os_a.val()))
+                {
+                    valid = false;
+                    raiseError($os_a, "Invalid Number");
+                }
+            return valid;
+        }
+
+        function addGlasses()
+        {
+            var pars = {
+                        type: $("#type").val(),
+                        gender: $("#gender").val(),
+                        size: $("#size").val(),
+                        tint: $("#tint").val(),
+                        material: $("#material").val(),
+                        od_sphere: $("#od_sphere").val(),
+                        od_cylinder: $("#od_cylinder").val(),
+                        od_axis: $("#od_axis").val(),
+                        od_add: $("#od_add").val(),
+                        os_sphere: $("#os_sphere").val(),
+                        os_cylinder: $("#os_cylinder").val(),
+                        os_axis: $("#os_axis").val(),
+                        os_add: $("#os_add").val()
+                        };
+            if(validate())
+            {
+                $.post('/inventoryadd',pars,function(data) {
+                  displayGlasses(data.new_sku);
+                });
+            }
+        }
+
+        function updateGlasses(glasses_id)
+        {
+            var pars = {
+                        glasses_id: glasses_id,
+                        type: $("#type").val(),
+                        gender: $("#gender").val(),
+                        size: $("#size").val(),
+                        tint: $("#tint").val(),
+                        material: $("#material").val(),
+                        od_sphere: $("#od_sphere").val(),
+                        od_cylinder: $("#od_cylinder").val(),
+                        od_axis: $("#od_axis").val(),
+                        od_add: $("#od_add").val(),
+                        os_sphere: $("#os_sphere").val(),
+                        os_cylinder: $("#os_cylinder").val(),
+                        os_axis: $("#os_axis").val(),
+                        os_add: $("#os_add").val()
+                        };
+            if(validate())
+            {
+                $.post('/inventoryupdate',pars,function(data) {
+                    cancelEditGlasses();
+                    displayGlasses(glasses_id);
+                });
+            }
+        }
+
+        function deleteGlasses(sender, glasses_id)
+        {
+            var par = {glasses_id:glasses_id};
+            if(confirm("Please Confirm"))
+            {
+                $.post('/inventorydelete',par,function(data) {
+                    $(sender).closest("tr").fadeOut();
+                });
+            }
+        }
+        function undeleteGlasses(glasses_id)
+        {
+            if(confirm("Please Confirm"))
+            {
+            //    $.post('/inventoryadd',pars,function(data) {
+                    //alert("Done " + data.new_sku);
+              //    displayGlasses(data.new_sku);
+                //});
+                alert("Done" + glasses_id);
+            }
+        }
+        function editGlasses(sender, glasses_id)
+        {
+            var $second_header_row = $("#second_header_row");
+            var $parent_row = $(sender).closest("tr");
+
+            if($("#cancelEdit").length > 0 )
+            {
+                $second_header_row.prev().show();
+            }
+
+            $("#save_button").attr("onclick","updateGlasses("+ glasses_id +")").val("Update");
+            if($("#cancelEdit").length <= 0 )
+            {
+                $("#save_button").after("<a id='cancelEdit' onclick='cancelEditGlasses()' href='javascript:void(0)' title='Cancel Edit'>Cancel</a>");
+            }
+            $parent_row.after($second_header_row);
+            $second_header_row.children("td:eq(0)").html($parent_row.children("td:eq(0)").html());
+
+            $("#type").val($parent_row.children("td:eq(1)").html());
+            $("#gender").val($parent_row.children("td:eq(2)").html());
+            $("#size").val($parent_row.children("td:eq(3)").html());
+            $("#tint").val($parent_row.children("td:eq(4)").html());
+            $("#material").val($parent_row.children("td:eq(5)").html());
+
+            $("#od_sphere").val($parent_row.children("td:eq(6)").html());
+            $("#od_cylinder").val($parent_row.children("td:eq(7)").html());
+            $("#od_axis").val($parent_row.children("td:eq(8)").html());
+            $("#od_add").val($parent_row.children("td:eq(9)").html());
+            $("#os_sphere").val($parent_row.children("td:eq(10)").html());
+            $("#os_cylinder").val($parent_row.children("td:eq(11)").html());
+            $("#os_axis").val($parent_row.children("td:eq(12)").html());
+            $("#os_add").val($parent_row.children("td:eq(13)").html());
+
+            $parent_row.hide();
+        }
+
+        function cancelEditGlasses()
+        {
+            $("#save_button").attr("onclick","addGlasses()").val("Add");
+            var $first_header_row = $("#first_header_row");
+            var $second_header_row = $("#second_header_row");
+            $second_header_row.prev().show();
+            $first_header_row.after($second_header_row);
+            $second_header_row.children("td:eq(0)").html(null);
+            $("#cancelEdit").remove();
+            resetInputs();
+            $("body").scrollTop();
+        }
+
+        function displayGlasses(new_sku)
+        {
+            var $container = $("#entry_table tbody");
+            $container.html("<img src=/images/ajax-loader.gif> Loading glasses...");
+            $container.load("/inventory_list", function(){
+                if(new_sku != null)
+                {
+                    $("#"+new_sku).addClass("highlight_row").effect("pulsate", { times:3 }, 800);
+                    resetInputs();
+                }
+            });
+        }
+
+        function resetInputs()
+        {
+            $("#type").val("B").focus();
+            $("#gender").val("U");
+            $("#size").val("M");
+            $("#tint").val("N");
+            $("#material").val("M");
+            $("#od_sphere").val(null);
+            $("#od_cylinder").val(null);
+            $("#od_axis").val(null);
+            $("#od_add").val(null);
+            $("#os_sphere").val(null);
+            $("#os_cylinder").val(null);
+            $("#os_axis").val(null);
+            $("#os_add").val(null);
+
+        }
+body
+  include includes/menu
+  include includes/common_functions
+  div(class="centered")
+    h1 Inventory Update
+    span.explations The inventory number will be automatically generated
+    table#entry_table(class="inventory_table")
+        thead
+            tr#first_header_row
+                td
+                td
+                td
+                td
+                td
+                td
+                th(colspan="4") OD / Right
+                th(colspan="4") OS / Left
+                td
+            tr#third_header_row
+                th SKU
+                th Type
+                th Gender
+                th Size
+                th Tint
+                th Material
+                th.od Sphere
+                th.od Cylinder
+                th.od Axis
+                th.od Add
+                th.os Sphere
+                th.os Cylinder
+                th.os Axis
+                th.os Add
+                th Date Added
+                th
+            tr#second_header_row
+                td
+                td
+                    select#type(name="type", tabindex="1")
+                        option(value="")
+                        option(value="S") Single Vision
+                        option(value="B", selected=true) Bifocal
+                td
+                    select#gender(name="gender",tabindex="2")
+                        option(value="")
+                        option(value="M") Male
+                        option(value="M") Female
+                        option(value="U", selected=true) Unisex
+                td
+                    select#size(name="size",tabindex="3")
+                        option(value="")
+                        option(value="C") Child
+                        option(value="S") Small
+                        option(value="M", selected=true) Medium
+                        option(value="L") Large
+                td
+                    select#tint(name="tint",tabindex="4")
+                        option(value="")
+                        option(value="N", selected=true) No
+                        option(value="D") Dark
+                        option(value="L") Light
+                td
+                    select#material(name="material",tabindex="5")
+                        option(value="")
+                        option(value="M", selected=true) Metal
+                        option(value="P") Plastic
+                td
+                    input#od_sphere(type="text", name="od_sphere", tabindex="6").prescription
+                td
+                    input#od_cylinder(type="text", name="od_cylinder", tabindex="7").prescription
+                td
+                    input#od_axis(type="text", name="od_axis", tabindex="8").prescription
+                td
+                    input#od_add(type="text", name="od_add", tabindex="9").prescription
+                td
+                    input#os_sphere(type="text", name="os_sphere", tabindex="10").prescription
+                td
+                    input#os_cylinder(type="text", name="os_cylinder",tabindex="11").prescription
+                td
+                    input#os_axis(type="text", name="os_axis", tabindex="12").prescription
+                td
+                    input#os_add(type="text", name="os_add", tabindex="13").prescription
+                td
+                td
+                    input#save_button(type="submit", value="Add", onclick="addGlasses()", tabindex="14")
+
+        tbody

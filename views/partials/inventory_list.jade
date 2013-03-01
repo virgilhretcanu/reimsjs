@@ -1,0 +1,58 @@
+include ../includes/common_functions
+-var idx = 0
+- glasses.forEach(function(item){
+    -idx = idx + 1
+    tr(id=item.sku,class=idx%2==0?"even":"odd")
+        td.sku_cell= item.sku
+        td= item.type
+        td= item.gender
+        td= item.size
+        td= item.tint
+        td= item.material
+        if item.od_sphere > 0
+            if item.od_sphere % 1 == 0
+                td.od +#{item.od_sphere}.00
+            else
+                td.od +#{item.od_sphere}
+        else
+            td.od #{item.od_sphere}
+        if item.od_cylinder != "" && item.od_cylinder % 1 == 0
+            td.od #{item.od_cylinder}.00
+        else
+            td.od #{item.od_cylinder}
+        if item.od_axis < 10
+            td.od 00#{item.od_axis}
+        else if item.od_axis < 100
+            td.od 0#{item.od_axis}
+        else
+            td.od #{item.od_axis}
+        td.od +#{item.od_add}.00
+        if item.os_sphere > 0
+            if item.os_sphere % 1 == 0
+                td.os +#{item.os_sphere}.00
+            else
+                td.os +#{item.os_sphere}
+        else
+            td.os #{item.os_sphere}
+        if item.os_cylinder != "" && item.os_cylinder % 1 == 0
+            td.os #{item.os_cylinder}.00
+        else
+            td.os #{item.os_cylinder}
+        if item.os_axis < 10
+            td.os 00#{item.os_axis}
+        else if item.os_axis < 100
+            td.os 0#{item.os_axis}
+        else
+            td.os #{item.os_axis}
+        td.os +#{item.os_add}.00
+
+        td #{dateFormat(item.create_date, false)}
+        td
+            if item.deleted == 0
+                a(onclick="deleteGlasses(this,#{item.glasses_id})",href="javascript:void(0)") Delete
+            else
+                a(onclick="undeleteGlasses(this,#{item.glasses_id})",href="javascript:void(0)") Restore
+            &nbsp;
+            a(onclick="editGlasses(this,#{item.glasses_id})",href="javascript:void(0)") Edit
+
+- })

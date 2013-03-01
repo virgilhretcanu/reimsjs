@@ -1,0 +1,13 @@
+- var dateFormat = function(d,t){
+-   var return_date;
+-   var d1 = d.split(" ")[0];
+-   var year = d1.split("-")[0].substring(2);
+-   var month = d1.split("-")[1];
+-   var day = d1.split("-")[2];
+-   return_date = month +"/" + day + "/" + year;
+-   if(t){
+-       var d2 = d.split(" ")[1];
+-       return_date = return_date + " " + d2;
+-   }
+-   return return_date;
+- }
